@@ -64,11 +64,11 @@ class Game
     def to_s
         # Get the maximum lengths of line elements to equalize the output formats
         max_name = "Player #{@players.count-1}".length
-        max_currency = "($#{@players.collect(&:wealth).max})".length
+        max_currency = " ($#{@players.collect(&:wealth).max})".length
         lines = []
         dealer_line = "Dealer"
         player_name_line = "Player"
-        player_wealth_line_start = "($"
+        player_wealth_line_start = " ($"
         player_wealth_line_end = ")"
         lines << dealer_line + "#{" " * (max_name - dealer_line.length + max_currency)}: #{@dealer.hand}"
         @players.each_with_index do |player, player_index|
