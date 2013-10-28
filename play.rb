@@ -18,8 +18,13 @@ Decision.new("Split", "x")
 begin
     game = Game.new(players.select{|player| player.wealth > 0})
 
+    if game.players.count < 1
+        puts "GAME OVER, you're all out of money!"
+        break
+    end
+
     game.players.each do |player|
-        while player.set_starting_bet(prompt("Player #{player.index} please set a starting bet less than #{player.wealth}: ")) == false ; end
+        while player.set_starting_bet(prompt("Player #{player.index} please set a starting bet less than #{player.wealth+1}: ")) == false ; end
     end
 
     continue = true
@@ -39,13 +44,13 @@ begin
             # Have each player make a decision for each hand they have
             player.hands.select{|hand| hand.busted? == false}.each_with_index do |hand, hand_index|
                 # Get all possible decisions
-                possible_decisions = hand.possible_decisions
                 decision = nil
                 while hand.busted? == false && (decision.nil? || decision.is_hit?)
+                    possible_decisions = hand.possible_decisions
                     decision = nil
 
                     # Get a decision from the player
-                    while Decision.find_decision(decision).nil?
+                    while Decision.find_decision(decision).nil? || !possible_decisions.include?(Decision.find_decision(decision))
                         puts "Choose a decision for Hand #{hand}"
                         decision_text = possible_decisions.collect do |decision|
                             "#{decision.name}(#{decision.shortcut})"
@@ -54,6 +59,7 @@ begin
                     end
                     decision = Decision.find_decision(decision.downcase)
                     continue = true if decision.is_hit?
+                    continue = true if decision.is_double?
 
                     # Play the decision
                     game.make_decision(decision, hand)

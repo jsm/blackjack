@@ -36,7 +36,7 @@ class Hand
         self.bet += bet
     end
 
-    def double_bet(bet)
+    def double_bet
         self.add_bet(@bet)
     end
 

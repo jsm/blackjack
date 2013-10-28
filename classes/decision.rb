@@ -20,4 +20,9 @@ class Decision
         return @name.downcase == "hit"
     end
 
+    def is_double?
+        return @name.downcase == "double down"
+    end
+
+
 end

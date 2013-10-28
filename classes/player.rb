@@ -16,7 +16,7 @@ class Player
         rescue
             return false
         end
-        if bet < @wealth && bet > 0
+        if bet < @wealth+1 && bet > 0
             self.hand.add_bet(bet)
             return true
         else
